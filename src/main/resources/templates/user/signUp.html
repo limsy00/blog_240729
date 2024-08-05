@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+
+<section layout:fragment="content" class="contents d-flex justify-content-center align-items-center">
+	<div class="sign-up-box">
+		<h3 class="text-center mt-5">회원가입</h3><hr>
+		<form id="signUpForm" method="post" action="/user/sign-up">
+			<span>아이디(4자 이상)</span><br>
+			<!-- 인풋박스 옆에 중복확인을 붙이기 위해 div를 하나 더 만들고 d-flex -->
+			<div class="d-flex mt-2 mb-2">
+				<input type="text" id="loginId" name="loginId" class="form-control col-9" placeholder="아이디를 입력하세요.">
+				<button type="button" id="loginIdCheckBtn" class="btn text-white">중복확인</button><br>
+			</div>
+					
+			<!-- 아이디 체크 결과 -->
+			<!-- d-none 클래스: display none (보이지 않게) -->
+			<div id="idCheckLength" class="small text-danger d-none">ID를 4자 이상 입력해주세요.</div>
+			<div id="idCheckDuplicated" class="small text-danger d-none">이미 사용중인 ID입니다.</div>
+			<div id="idCheckOk" class="small text-success d-none">사용 가능한 ID 입니다.</div>
+		
+			<span>비밀번호</span><br>
+			<input type="password" id="password" name="password" class="form-control mt-2 mb-2" placeholder="비밀번호를 입력하세요.">
+		
+			<span>비밀번호 확인</span><br>
+			<input type="password" id="confirmPassword" class="form-control mt-2 mb-2" placeholder="비밀번호를 입력하세요.">
+			
+			<span>이름</span><br>
+			<input type="text" id="name" name="name" class="form-control mt-2 mb-2" placeholder="이름을 입력하세요.">
+			
+			<span>이메일</span><br>
+			<div class="d-flex align-items-center">
+                <input type="text" id="email" name="email" class="form-control mt-2 mb-2" placeholder="이메일 주소 입력">
+                <span>@</span>
+                <select id="emailDomainSelect" class="form-control">
+                    <option>naver.com</option>
+                    <option>google.com</option>
+                    <option>nate.com</option>
+                    <option>직접 입력</option>
+                </select>
+            </div>
+			
+			
+			<button type="submit" id="signUpBtn" class="w-100 mt-2 btn text-white">가입하기</button>
+		</form>
+	</div>
+</section>
+
+<th:block layout:fragment="script">
+    <script>
+
+    </script>
+</th:block>

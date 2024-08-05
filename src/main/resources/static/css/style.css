@@ -1,0 +1,30 @@
+@charset "UTF-8";
+
+header {
+	height:100px; 
+	width:100%; 
+	background-color: #998877;
+} 
+.header-text {
+	font-family: "Lucida Console", "Courier New", monospace;
+	font-size: 40px;
+	color: #FFFFFF;
+}
+.sign-up-box {width: 400px;}
+
+.contents {min-height: 500px;}
+
+
+.user-id {background-color:#998877; 
+	width:200px; 
+	height:100px;
+}
+.login {background-color:#998877; 
+	width:200px; 
+	height:100px;
+}
+.btn {background-color:#998877;}
+span {font-weight: bold;}
+
+.login-box {width: 300px;}
+.btn-signUp {background-color: black;}

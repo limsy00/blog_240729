@@ -9,17 +9,16 @@
 		<h3 class="text-center mt-5">회원가입</h3><hr>
 		<form id="signUpForm" method="post" action="/user/sign-up">
 			<span>아이디(4자 이상)</span><br>
-			<!-- 인풋박스 옆에 중복확인을 붙이기 위해 div를 하나 더 만들고 d-flex -->
+			<!-- 중복확인 -->
 			<div class="d-flex mt-2 mb-2">
 				<input type="text" id="loginId" name="loginId" class="form-control col-9" placeholder="아이디를 입력하세요.">
 				<button type="button" id="loginIdCheckBtn" class="btn text-white">중복확인</button><br>
 			</div>
 					
-			<!-- 아이디 체크 결과 -->
-			<!-- d-none 클래스: display none (보이지 않게) -->
-			<div id="idCheckLength" class="small text-danger d-none">ID를 4자 이상 입력해주세요.</div>
-			<div id="idCheckDuplicated" class="small text-danger d-none">이미 사용중인 ID입니다.</div>
-			<div id="idCheckOk" class="small text-success d-none">사용 가능한 ID 입니다.</div>
+			<!-- 아이디 중복 결과 (d-none) -->
+			<div id="idCheckLength" class="ml-2 mb-2 small text-danger d-none">ID를 4자 이상 입력해주세요.</div>
+			<div id="idCheckDuplicated" class="ml-2 mb-2 small text-danger d-none">이미 사용중인 ID입니다.</div>
+			<div id="idCheckOk" class="ml-2 mb-2 small text-success d-none">사용 가능한 ID 입니다.</div>
 		
 			<span>비밀번호</span><br>
 			<input type="password" id="password" name="password" class="form-control mt-2 mb-2" placeholder="비밀번호를 입력하세요.">
@@ -50,6 +49,40 @@
 
 <th:block layout:fragment="script">
     <script>
-
+		$(document).ready(function() {
+			/* 아이디 중복확인 */
+			$("#loginIdCheckBtn").on('click', function() {
+				//alert("중복확인");
+				
+				// 문구 초기화(다시 숨기기)
+				$("#idCheckLength").addClass("d-none");
+				$("#idCheckDuplicated").addClass("d-none");
+				$("#idCheckOk").addClass("d-none");
+				
+				let loginId = $("#loginId").val().trim();
+				//alert(loginId);
+				
+				// ●아이디 4자 이상 입력
+				if (loginId.length < 4) {
+					$("#idCheckLength").removeClass("d-none");
+					return;
+				}
+				
+				$.ajax({
+					url:"/user/is-duplicated-id"
+					, data:{"loginId":loginId}
+					, success:function(data) {
+						if (data.is_duplicated_id) { // 중복
+							$("#idCheckDuplicated").removeClass("d-none");
+						} else { // 사용 가능
+							$("#idCheckOk").removeClass("d-none");
+						}
+					}
+					, error:function(error) {
+						alert("중복확인에 실패했습니다.");
+					}
+				});
+			}); //--'중복확인' 버튼
+		}); //--ready
     </script>
 </th:block>

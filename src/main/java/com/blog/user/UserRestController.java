@@ -13,6 +13,9 @@ import com.blog.common.EncryptUtils;
 import com.blog.user.bo.UserBO;
 import com.blog.user.entity.UserEntity;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 @RestController
 @RequestMapping("/user")
 public class UserRestController {
@@ -75,5 +78,41 @@ public class UserRestController {
 			result.put("error_message", "회원가입에 실패했습니다.");
 		}
 		return result;
+	}
+	
+	/**
+	 * 로그인
+	 * @param loginId
+	 * @param password
+	 * @param request
+	 * @return
+	 */
+	@PostMapping("/sign-in")
+	public Map<String, Object> signIn(
+		@RequestParam("loginId") String loginId,
+		@RequestParam("password") String password,
+		HttpServletRequest request) {
+				
+		String haschedPassword = EncryptUtils.md5(password); // pw hashing	
+		
+		// select db
+		UserEntity user = userBO.getUserEntityByLoginIdPassword(loginId, haschedPassword);
+		 
+		// 응답값 
+		Map<String, Object> result = new HashMap<>();
+		if (user != null) { // 성공
+			HttpSession session = request.getSession(); // 세션에 사용자의
+			session.setAttribute("userId", user.getId());  // -고유번호 저장
+			session.setAttribute("userLoginId", user.getLoginId()); // -로그인 아이디 저장
+			session.setAttribute("userName", user.getName()); // -이름 저장
+		
+			result.put("code", 200);
+			result.put("result", "성공");
+		} else { // 실패
+			result.put("code", "404");
+			result.put("error_message", "존재하지 않는 사용자 입니다.");
+		}
+		return result;
+	
 	}
 }

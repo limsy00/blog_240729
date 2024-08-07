@@ -33,12 +33,13 @@
 			<div class="d-flex align-items-center">
                 <input type="text" id="email" name="email" class="form-control mt-2 mb-2" placeholder="이메일 주소 입력">
                 <span>@</span>
-                <select id="emailDomainSelect" class="form-control">
+               	<select id="emailDomainSelect" name="emailDomainSelect" class="form-control" required>
+                	<option selected disabled>-------- 선택 --------</option>
                     <option>naver.com</option>
                     <option>google.com</option>
                     <option>nate.com</option>
-                    <option>직접 입력</option>
-                </select>
+               	</select>
+                
             </div>
 			
 			
@@ -83,6 +84,67 @@
 					}
 				});
 			}); //--'중복확인' 버튼
+			
+			/* 회원가입 */
+			$("#signUpForm").on('submit', function(e) {
+				e.preventDefault(); 
+				//alert("가입하기");
+				
+				// ●validation
+				let loginId = $("#loginId").val().trim();
+				let password = $("#password").val();
+				let confirmPassword = $("#confirmPassword").val();
+				let name = $("#name").val().trim();
+				let email = $("#email").val().trim();
+				let emailDomainSelect = $("#emailDomainSelect").val();
+				
+				if (!loginId) {
+					alert("아이디를 입력하세요");
+					return false;
+				}
+				
+				if (!password || !confirmPassword) {
+					alert("비밀번호를 입력하세요");
+					return false;
+				}
+				
+				if (password != confirmPassword) {
+					alert("비밀번호가 일치하지 않습니다");
+					return false;
+				}
+				
+				if (!name) {
+					alert("이름을 입력하세요");
+					return false;
+				}
+				
+				if (!email ) {
+					alert("이메일을 입력하세요");
+					return false;
+				}
+				
+				if(!emailDomainSelect){
+		            alert("선택된 항목이 없습니다.");
+		            
+		            return false;
+		        }
+				
+				let url = $(this).attr("action");
+				console.log(url);
+				let params = $(this).serialize();
+				console.log(params);
+				
+				$.post(url, params) // request
+				.done(function(data) { // response
+					if (data.code == 200) {
+						alert("가입을 환영합니다. 로그인 해주세요.");
+						// 로그인 화면 이동
+						location.href = "/user/sign-in-view";
+					} else {
+						alert(data.error_message);
+					}
+				});
+			}); //--'가입하기' 버튼
 		}); //--ready
     </script>
 </th:block>

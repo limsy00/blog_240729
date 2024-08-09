@@ -3,7 +3,7 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
  <mapper namespace="com.blog.post.mapper.PostMapper">
- <!-- ※test4 -->
+ 	<!-- ※test4 -->
  	<select id="selectPostListTest" resultType="map">
  		SELECT
  			*
@@ -11,4 +11,20 @@
  			`post`
  	</select>
  	
+ 	<!-- 글 목록 > 사용자의 글 목록 조회 -->
+ 	<select id="selectPostListByUserId" parameterType="int" resultType="com.blog.post.domain.Post">
+ 		SELECT
+ 			`id`
+			,`userId`
+			,`subject`
+			,`content`
+			,`imagePath`
+			,`createdAt`
+			,`updatedAt`
+ 		FROM
+ 			`post`
+ 		WHERE
+ 			`userId` = #{userId}
+ 		ORDER BY `id` DESC
+ 	</select>
  </mapper>

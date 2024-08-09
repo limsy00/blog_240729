@@ -7,11 +7,11 @@
 	<div class="w-100">
 		<table class="table table-striped table-hover">
 			<tbody>
-				<tr>
+				<tr th:each="post : ${postList}">
 					<td> 
-						<div class="table-title">title</div>
-						<div class="text-secondary">createdAt</div>
-						<div class="text-secondary">content</div>
+						<div th:text="${post.subject}" class="table-title">title</div>
+						<div th:text="${#temporals.format(post.createdAt, 'yyyy년 M월 d일')}" class="text-secondary">createdAt</div>
+						<div th:text="${post.content}" class="text-secondary">content</div>
 					</td>
 				</tr>
 			</tbody>

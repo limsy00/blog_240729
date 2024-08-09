@@ -66,7 +66,7 @@ public class UserRestController {
 		String hashedPassword = EncryptUtils.md5(password);
 		
 		// insert db
-		UserEntity user = userBO.addUser(loginId, password, name, email);
+		UserEntity user = userBO.addUser(loginId, hashedPassword, name, email); 
 		
 		// 응답값
 		Map<String, Object> result = new HashMap<>();

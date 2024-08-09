@@ -6,17 +6,19 @@
 	    		
 	<div class="h-100 d-flex justify-content-between align-items-center">
 		<div class="user-id d-flex align-items-center justify-content-center">
-			<img alt="사용자 캐릭터" src="/blog_img/bear.jpg" width="50">
-			<div th:if="${session.userId != null}">
-				<span th:text="'Hello, ' + ${session.userName}"></span>
-				<a href="/user/sign-out">로그아웃</a>
+			<img alt="사용자 캐릭터" src="/blog_img/bear.jpg" width="55" class="ml-4">
+			<div th:if="${session.userId != null}" class="mt-4 ml-3">
+				<p th:text="'Hello, ' + ${session.userName}" class="text-white"></p>
 			</div>
 		</div>
 		<div>
 			<h1 class="header-text">myStory</h1>
 		</div>
+		<div th:if="${session.userId != null}">
+			<a href="/user/sign-out" class="text-warning mr-5">logout</a>
+		</div>
 		<div th:unless="${session.userId != null}" class="login d-flex align-items-center justify-content-center">
-			<a href="/user/sign-in-view">로그인</a>
+			<a href="/user/sign-in-view" class="text-warning mr-2">login</a>
 		</div>
 	</div>
 </header>

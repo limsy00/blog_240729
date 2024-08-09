@@ -10,6 +10,8 @@ header {
 	font-size: 40px;
 	color: #FFFFFF;
 }
+p {font-family: "Lucida Console", "Courier New", monospace;}
+a {font-family: "Lucida Console", "Courier New", monospace; }
 .sign-up-box {width: 400px;}
 
 .contents {min-height: 500px;}
@@ -24,7 +26,6 @@ header {
 	height:100px;
 }
 .btn {background-color:#998877;}
-span {font-weight: bold;}
 
 .login-box {width: 300px;}
 .btn-signUp {background-color: black;}

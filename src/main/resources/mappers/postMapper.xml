@@ -27,4 +27,43 @@
  			`userId` = #{userId}
  		ORDER BY `id` DESC
  	</select>
+ 	
+ 	<!-- 글 쓰기 > 글 추가 -->
+ 	<insert id="insertPost" parameterType="map">
+		INSERT INTO `post`
+		(
+			`userId`
+			,`subject`
+			,`content`
+			,`imagePath`
+			,`createdAt`
+			,`updatedAt`
+		)
+		VALUES
+		(
+			#{userId}
+			, #{subject}
+			, #{content}
+			, #{imagePath}
+			, NOW()
+			, NOW()
+		)
+	</insert>
+	
+	<!-- 글 상세 > 사용자의 글 조회 -->
+	<select id="selectPostByPostIdUserId" parameterType="map" resultType="com.blog.post.domain.Post">
+		SELECT
+			`id`
+			,`userId`
+			,`subject`
+			,`content`
+			,`imagePath`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`post`
+		WHERE
+			`userId` = #{userId}
+			AND `id` = #{postId} <!-- ※db 안에 postId는 id를 의미 -->
+	</select>
  </mapper>

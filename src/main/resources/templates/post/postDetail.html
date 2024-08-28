@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/defaultLayout}">
+<section layout:fragment="content" class="contents d-flex justify-content-center">
+	<div class="contents-box">		
+		<!-- 타임라인 영역 -->
+		<div class="timeline-box my-5">
+			<!-- 포스트 -->
+			<div class="card border rounded mt-3">
+				<!-- 글 제목, 더보기(삭제) -->
+				<div class="p-2 d-flex justify-content-between">
+					<div data-ke-size="size23" class="card-title">글 제목</div>
+					<p data-ke-size="size16">&nbsp;</p>
+					
+					<!-- 더보기(...) -->
+					<a href="#" class="more-btn mr-1">
+						<img src="https://www.iconninja.com/files/860/824/939/more-icon.png" width="30">
+					</a>
+				</div>
+				
+				<!-- 본문 이미지 (이미지 있을 때에만 영역 노출) -->
+				<div class="card-img">
+					<img th:if="${post.imagePath != null}" th:src="${post.imagePath}" class="w-100" alt="본문 이미지">
+					<img th:unless="${post.imagePath != null}" src="/blog_img/none.jpg" class="w-100 d-none" alt="기본 이미지">
+				</div>
+				
+				<!-- 글 -->
+				<div class="card-post m-3">
+					<div th:text="${post.content}" class="text-secondary">글 내용입니다!!!!</div>
+				</div>
+				
+				<!-- 공감 -->
+				<button class="card-like m-3 bg-dark">
+					<span th:text="|♥ 공감|" class="text-white"></span>
+				</button>
+				
+				<!-- 댓글 목록 -->
+				<div class="card-comment-list m-2">
+					<!-- 댓글들 -->
+					<div class="card-comment d-flex m-1">
+						<div class="font-weight-bold mr-2">댓글쓰니</div>
+						<div class="text-secondary mr-2">댓글 내용임</div>
+						
+						<!-- 댓글 삭제(자신의 댓글만 가능) -->
+						<a href="#" class="comment-del-btn">
+							<img src="/blog_img/delete.jpg" width="10" height="10">
+						</a>
+					</div>
+					
+					<!-- 댓글 쓰기 -->
+					<div class="comment-write d-flex border-top mt-2 border rounded">
+						<input type="text" class="comment-input form-control border-0 mr-2" placeholder="댓글 달기">
+						<button type="button" class="comment-btn btn text-white">등록</button>
+					</div>
+				</div> <!-- 댓글 끝 -->
+			</div> <!-- 포스트 끝 -->
+		</div> <!-- 타임라인 박스 끝 -->
+	</div>
+</section>
+
+<th:block layout:fragment="script">
+    <script>
+
+    </script>
+</th:block>

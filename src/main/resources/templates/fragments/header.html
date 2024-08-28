@@ -15,10 +15,10 @@
 			<h1 class="header-text">myStory</h1>
 		</div>
 		<div th:if="${session.userId != null}">
-			<a href="/user/sign-out" class="text-warning mr-5">logout</a>
+			<a href="/user/sign-out" class="logout text-warning mr-5">logout</a>
 		</div>
 		<div th:unless="${session.userId != null}" class="login d-flex align-items-center justify-content-center">
-			<a href="/user/sign-in-view" class="text-warning mr-2">login</a>
+			<a href="/user/sign-in-view" class="login text-warning mr-2 d-none">login</a>
 		</div>
 	</div>
 </header>

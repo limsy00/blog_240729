@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.blog.comment.bo.CommentBO;
+import com.blog.comment.domain.CommentView;
 import com.blog.post.bo.PostBO;
 import com.blog.post.domain.Post;
 
@@ -19,6 +21,9 @@ import jakarta.servlet.http.HttpSession;
 public class PostController {
 	@Autowired
 	private PostBO postBO;
+	
+	@Autowired
+	private CommentBO commentBO;
 	
 	/**
 	 * 글 목록 화면
@@ -71,8 +76,12 @@ public class PostController {
 		// db select
 		Post post = postBO.getPostByPostIdUserId(userId, postId);
 		
+		// 댓글 뿌리기 > 댓글 목록 가져오기
+		List<CommentView> commentViewList = commentBO.generateCommentViewListByPostId(postId);
+		
 		// model에 글 담기
 		model.addAttribute("post", post);
+		model.addAttribute("commentViewList", commentViewList);
 		
 		return "post/postDetail";
 	}

@@ -66,4 +66,10 @@
 			`userId` = #{userId}
 			AND `id` = #{postId} <!-- ※db 안에 postId는 id를 의미 -->
 	</select>
+	
+	<!-- 댓글 뿌리기 > 모든 글 조회 -->
+    <select id="selectAllPosts" resultType="com.blog.post.entity.PostEntity">
+        SELECT *
+        FROM post
+    </select>
  </mapper>

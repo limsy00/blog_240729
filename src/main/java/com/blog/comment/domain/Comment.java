@@ -1,4 +1,4 @@
-package com.blog.comment.doamain;
+package com.blog.comment.domain;
 
 import java.time.LocalDateTime;
 

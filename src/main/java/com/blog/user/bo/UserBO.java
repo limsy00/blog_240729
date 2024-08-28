@@ -33,4 +33,9 @@ public class UserBO {
 				.email(email)
 				.build());
 	} 
+	
+	// 댓글 뿌리기 > 사용자 아이디에 해당하는 글 조회 → 글 목록 반복 순회 위함
+	public UserEntity getUserEntityById(int userId) {
+		return userRepository.findById(userId).orElse(null); // 없으면 null 넣기
+	}
 }

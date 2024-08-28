@@ -22,4 +22,32 @@
 			, NOW()
 		)
 	</insert>
+	
+	<!-- 댓글 뿌리기 > 댓글들 조회 -->
+	<select id="selectCommentList" resultType="com.blog.comment.domain.Comment">
+		SELECT
+			`id`
+			,`postId`
+			,`userId`
+			,`content`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`comment`
+	</select>
+	
+	<!-- 댓글 뿌리기 > 글 번호에 해당하는 댓글들 조회 -->
+	<select id="selectCommentListByPostId" parameterType="int" resultType="com.blog.comment.domain.Comment">
+		SELECT
+			`id`
+			,`postId`
+			,`userId`
+			,`content`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`comment`
+		WHERE
+			`postId` = #{postId}
+	</select>
 </mapper>

@@ -47,9 +47,9 @@
 				<!-- 댓글 목록 -->
 				<div class="card-comment-list m-2">
 					<!-- 댓글들 -->
-					<div class="card-comment d-flex m-1">
-						<div class="font-weight-bold mr-2">댓글쓴이</div>
-						<div class="text-secondary mr-2">댓글 내용임</div>
+					<div class="card-comment d-flex m-1" th:each="commentView : ${commentViewList}">
+						<div class="font-weight-bold mr-2" th:text="${commentView.user.loginId}">댓글쓴이</div>
+						<div class="text-secondary mr-2" th:text="${commentView.comment.content}">댓글 내용임</div>
 						
 						<!-- 댓글 삭제(자신의 댓글만 가능) -->
 						<a href="#" class="comment-del-btn">

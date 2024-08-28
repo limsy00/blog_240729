@@ -21,7 +21,7 @@ public class PostController {
 	private PostBO postBO;
 	
 	/**
-	 * 글 목록
+	 * 글 목록 화면
 	 * @param session
 	 * @param model
 	 * @return
@@ -44,7 +44,7 @@ public class PostController {
 	}
 	
 	/**
-	 * 글쓰기
+	 * 글쓰기 화면
 	 * @return
 	 */
 	@GetMapping("/post-create-view")
@@ -52,6 +52,13 @@ public class PostController {
 		return "post/postCreate";
 	}
 	
+	/**
+	 * 글 상세(타임라인) 화면
+	 * @param postId
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@GetMapping("/post-detail-view")
 	public String postDetailView(
 			@RequestParam("postId") int postId, 
@@ -63,6 +70,7 @@ public class PostController {
 		
 		// db select
 		Post post = postBO.getPostByPostIdUserId(userId, postId);
+		
 		// model에 글 담기
 		model.addAttribute("post", post);
 		

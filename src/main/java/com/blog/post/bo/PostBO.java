@@ -1,7 +1,9 @@
 package com.blog.post.bo;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.blog.comment.bo.CommentBO;
 import com.blog.comment.domain.CommentView;
 import com.blog.common.FileManagerService;
+import com.blog.like.bo.LikeBO;
 import com.blog.post.domain.Post;
 import com.blog.post.domain.PostCardView;
 import com.blog.post.entity.PostEntity;
@@ -27,6 +30,9 @@ public class PostBO {
 	
 	@Autowired
 	private CommentBO commentBO;
+	
+	@Autowired
+	private LikeBO likeBO;
 	
 	@Autowired
 	private FileManagerService fileManagerService;
@@ -62,32 +68,44 @@ public class PostBO {
 		postMapper.insertPost(userId, subject, content, imagePath);
 	}
 	
-	// 댓글 뿌리기 
-	// input:X	output: List<CardView> 
-	public List<PostCardView> generateCardViewList() { // generate : 가공 메소드
+	// 댓글 뿌리기 + 공감 뿌리기 → 비로그인 허용
+	// input:X	output: List<PostCardView> 
+	public List<PostCardView> generateCardViewList(Integer userId) { 
 		List<PostCardView> cardViewList = new ArrayList<>();
+		Set<Integer> postIds = new HashSet<>(); // 중복 제거를 위한 Set
 
 		// 글 목록 가져오기 : List<PostEntity>
 		List<PostEntity> postList = postMapper.selectAllPosts();
 		
 		// 글 목록 반복 순회 : PostEntity → CardView → cardViewList에 담기
 		for (PostEntity post : postList) {
-            PostCardView card = new PostCardView();
-            
-            card.setPost(post); // 글 → cardViewList에 담기
-             
-            UserEntity user = userBO.getUserEntityById(post.getUserId()); // 글쓴이 정보 가져오기
-            card.setUser(user);
-            
-            // 댓글 목록 가져오기
-            List<CommentView> commentList = commentBO.generateCommentViewListByPostId(post.getId());
-            card.setCommentList(commentList); // 댓글 담기
-            
-            cardViewList.add(card); // 글, 글쓴이 → 리스트 추가
+			if (!postIds.contains(post.getId())) { // 중복체크
+	            PostCardView card = new PostCardView();
+	            
+	            card.setPost(post); // 글 → cardViewList에 담기
+	             
+	            UserEntity user = userBO.getUserEntityById(post.getUserId()); // 글쓴이 정보 가져오기
+	            card.setUser(user);
+	            
+	            // 댓글 목록 가져오기
+	            List<CommentView> commentList = commentBO.generateCommentViewListByPostId(post.getId());
+	            card.setCommentList(commentList); // 댓글 담기
+	            
+	            // 공감 갯수 가져오기
+	            int likeCount = likeBO.getLikeCountByPostId(post.getId());
+				card.setLikeCount(likeCount);
+				
+				// 공감 체크 여부
+				boolean filledLike = likeBO.filledLikeByPostIdUserId(post.getId(), userId);
+		        card.setFilledLike(filledLike);
+		        
+	            cardViewList.add(card); // 리스트에 추가
+	            postIds.add(post.getId()); // 중복 방지
+			}
+
         }
         
         return cardViewList;
 	}
-	
 	
 }

@@ -13,6 +13,7 @@ import com.blog.comment.bo.CommentBO;
 import com.blog.comment.domain.CommentView;
 import com.blog.post.bo.PostBO;
 import com.blog.post.domain.Post;
+import com.blog.post.domain.PostCardView;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -69,9 +70,9 @@ public class PostController {
 			@RequestParam("postId") int postId, 
 			Model model, 
 			HttpSession session) {  
-
-		// 로그인 여부 확인 → 로그인이 풀릴 경우 접근X
-		int userId = (int)session.getAttribute("userId"); // 로그인된 상태라고 인지(다운캐스팅)
+		
+		
+		Integer userId = (Integer)session.getAttribute("userId"); 
 		
 		// db select
 		Post post = postBO.getPostByPostIdUserId(userId, postId);
@@ -79,9 +80,13 @@ public class PostController {
 		// 댓글 뿌리기 > 댓글 목록 가져오기
 		List<CommentView> commentViewList = commentBO.generateCommentViewListByPostId(postId);
 		
-		// model에 글 담기
-		model.addAttribute("post", post);
-		model.addAttribute("commentViewList", commentViewList);
+		// 공감 > 공감 갯수 가져오기
+		List<PostCardView> cardViewList = postBO.generateCardViewList(userId);
+		
+		// model에 데이터 담기
+		model.addAttribute("post", post); // 글 
+		model.addAttribute("commentViewList", commentViewList); // 댓글
+		model.addAttribute("cardViewList", cardViewList); // 공감
 		
 		return "post/postDetail";
 	}

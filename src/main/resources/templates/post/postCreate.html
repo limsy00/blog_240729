@@ -3,14 +3,13 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/defaultLayout}">
-<section layout:fragment="content" class="contents d-flex justify-content-center mt-5">
+<section layout:fragment="content" class="content d-flex justify-content-center mt-5">
 	<div class="w-50">
-		<h4 data-ke-size="size20"><span><b>글 쓰기</b>&nbsp; &nbsp;</span></h4>
+		<h4>글 쓰기</h4>
+		<input type="text" id="subject" class="form-control mt-2 mb-3" placeholder="제목을 입력하세요.">
+		<textarea rows="15" id="content" class="form-control mb-3" placeholder="내용을 입력하세요."></textarea>
 		
-		<input type="text" id="subject" class="form-control mb-2" placeholder="제목을 입력하세요.">
-		<textarea rows="10" id="content" class="form-control" placeholder="내용을 입력하세요."></textarea>
-		
-		<div class="d-flex justify-content-between mt-2">		
+		<div class="d-flex justify-content-between">		
 			<div class="file-upload d-flex"><!-- 이미지를 클릭 → 파일을 클릭한 효과 -->
 				<input type="file" id="file" accept=".jpg, .png, .gif" class="d-none">
 				<a href="#" id="fileUploadBtn"><img width="30" src="/blog_img/icon-image.png"></a>	
@@ -68,7 +67,7 @@
 			
 			// validation
 			let subject = $("#subject").val().trim();
-			let content = $("#content").val();
+			let content = $("#content").val(); 
 			let fileName = $("#file").val();
 			
 			if (!subject) {
@@ -125,6 +124,7 @@
 			});
 			
 		});
+
 
     }); //--ready
     </script>

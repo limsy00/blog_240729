@@ -6,32 +6,30 @@
 <section layout:fragment="content" class="contents d-flex justify-content-center">
 	<div class="contents-box">		
 		<!-- 타임라인 영역 -->
-		<div class="timeline-box my-5">
+		<div class="timeline-box">
 			<!-- 포스트 -->
-			<div class="card border rounded mt-3">
+			<div class="card border rounded mt-3" th:each="cardView, iterStat : ${cardViewList}" th:if="${iterStat.index == 0}">
 				<!-- 글 제목, 더보기(삭제) -->
-				<div class="p-2 d-flex justify-content-between">
-					<div class="d-flex">
+				<div class="d-flex justify-content-between align-items-center">
+					<div class="d-flex  mb-4">
 						<!-- 뒤로가기 -->
-						<a href="/post/post-list-view" class="goBack-btn">
+						<a href="/post/post-list-view" class="goBack-btn ml-3 mr-3">
 							<img src="https://imagescdn.gettyimagesbank.com/500/19/213/635/0/1153376175.jpg" width="30">
 						</a>
-						
 						<!-- 제목 -->
-						<div data-ke-size="size23" class="card-title">글 제목</div>
-						<p data-ke-size="size16">&nbsp;</p>
+						<div th:text="${post.subject}" class="card-title mt-3">글 제목</div>
 					</div>
 					
 					<!-- 더보기(...) -->
-					<a href="#" class="more-btn mr-1">
+					<a href="#" class="more-btn mr-4 mb-5">
 						<img src="https://www.iconninja.com/files/860/824/939/more-icon.png" width="30">
 					</a>
 				</div>
 				
 				<!-- 본문 이미지 (이미지 있을 때에만 영역 노출) -->
 				<div class="card-img">
-					<img th:if="${post.imagePath != null}" th:src="${post.imagePath}" class="w-100" alt="본문 이미지">
-					<img th:unless="${post.imagePath != null}" src="/blog_img/none.jpg" class="w-100 d-none" alt="기본 이미지">
+					<img th:if="${post.imagePath != null}" th:src="${post.imagePath}" width="400px" alt="본문 이미지">
+					<img th:unless="${post.imagePath != null}" src="/blog_img/none.jpg" class="d-none" alt="기본 이미지">
 				</div>
 				
 				<!-- 글 -->
@@ -39,10 +37,12 @@
 					<div th:text="${post.content}" class="text-secondary">글 내용입니다!!!!</div>
 				</div>
 				
-				<!-- 공감 -->
-				<button class="card-like m-3 bg-dark">
-					<span th:text="|♥ 공감|" class="text-white"></span>
+				<!-- 공감 버튼-->
+				<button class="card-like m-3 bg-dark" th:data-post-id="${cardView.post.id}" th:data-filled-like="${cardView.filledLike}">
+					<small th:if="${cardView.filledLike == false}" th:text="|♥ 공감|" class="text-white"></small>
+					<small th:unless="${cardView.filledLike == false}" th:text="|♥ ${cardView.likeCount}개|" class="text-white"></small>
 				</button>
+
 				
 				<!-- 댓글 목록 -->
 				<div class="card-comment-list m-2">
@@ -144,6 +144,43 @@
 				}
 			});
 		});
+    	
+    	/* 공감 Toggle */
+        $(".card-like").on('click', function(e) {
+        	e.preventDefault();
+			//alert("공감 토글");
+			
+            
+            // 글 번호 꺼내오기 → data-post-id
+            let postId = $(this).data("post-id");
+            
+            // 공감 버튼 이벤트
+            let isFilledLike = $(this).data("filled-like");
+            if (isFilledLike) {
+                alert("공감 해제🚫");
+            } else {
+            	alert("공감 꾹❤️");
+            }
+            
+            // ajax 요청
+            $.ajax({
+                type: "POST",
+                url: "/like/" + postId,
+                success: function(data) {
+                    if (data.code == 200) {
+                        location.reload(true); // 페이지 새로고침
+                    } else if (data.code == 403) { // 비로그인
+                        alert(data.error_message);
+                        location.href = "/user/sign-in-view";
+                    } else {
+                        alert(data.error_message);
+                    }
+                },
+                error: function() {
+                    alert("공감 상태 변경에 실패했습니다.");
+                }
+            });
+        });
     }); //--ready
     
     </script>

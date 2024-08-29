@@ -17,4 +17,7 @@ public class PostCardView { // 글 1개와 mapping, (글:댓글 = 1:N)
 	private UserEntity user; // 글쓴이 정보
 	
 	private List<CommentView> commentList; // 댓글 N개 
+	
+	private int likeCount; // 공감 N개
+	private boolean filledLike; // 공감 클릭 여부 → 이미 눌렀으면 홀수
 }

@@ -16,26 +16,32 @@ p {font-family: "Lucida Console", "Courier New", monospace;}
 a:hover {text-decoration: none;}
 
 span {font-size: 13pt; font-family: 'Noto Serif KR'; color: #998877;}
-h4 {
-	box-sizing: border-width 5px; 
-	border-left-style: solid; 
-	border-left-color: #998877; 
-	border-bottom: 1px solid #d9d9d9; 
-	color: #414e92; 
-	padding: 1px 10px 10px 10px; 
-	letter-spacing: 0px; margin: 1em 0em; 
-	line-height: 1; 
-}
+
 .card-title {
 	border-bottom: 3px solid #998877; 
-	padding: 0 0 0 0.2em; 
 	font-weight: bold;
+	font-size: 30px;
 }
 	
 .sign-up-box {width: 400px;}
 
-.contents {min-height: 500px;}
+.contents {
+	min-height: 500px;
+    overflow-wrap: break-word; /* 긴 단어가 있을 경우 자동으로 줄바꿈 */
+    overflow-x: hidden; /* 수평 스크롤 방지 */
+    overflow-y: auto; /* 수직 스크롤 허용 */
+    
+    word-break: break-word; /* 긴 단어는 줄바꿈 */
+    white-space: pre-line; /* 줄바꿈을 유지하면서 연속 공백은 하나로 처리 */
 
+    
+    
+}
+.contents-box {
+    width: 100%; /* 부모 컨테이너 너비에 맞춤 */
+    max-width: 800px; /* 너무 넓어지지 않도록 최대 너비 설정 */
+    
+}
 
 .user-id {
 	background-color:#998877; 
@@ -63,11 +69,11 @@ h4 {
 	white-space: nowrap;
 }
 
-.card-like{
-	width: 80px;
-	background-color: black;
-	border: none;
-	border-radius: 13px;
+.card-like {
+    width: 60px;
+    background-color: black;
+    border: none;
+    border-radius: 13px;
 }
 
 .btn-write{
@@ -92,4 +98,3 @@ h4 {
 	border-radius: 10px;
 }
 
-	

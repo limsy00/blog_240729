@@ -21,4 +21,7 @@ public interface CommentMapper {
 	
 	// 댓글 뿌리기 > 각각의 글 번호에 해당하는 댓글들 조회
 	public List<Comment> selectCommentListByPostId(int postId);
+	
+	// 댓글 삭제
+	public void deleteCommentById(int id);
 }

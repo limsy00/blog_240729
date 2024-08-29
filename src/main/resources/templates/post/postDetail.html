@@ -52,7 +52,7 @@
 						<div class="text-secondary mr-2" th:text="${commentView.comment.content}">댓글 내용임</div>
 						
 						<!-- 댓글 삭제(자신의 댓글만 가능) -->
-						<a href="#" class="comment-del-btn">
+						<a href="#" class="comment-del-btn" th:if="${session.userId == commentView.comment.userId}" th:data-comment-id="${commentView.comment.id}">
 							<img src="/blog_img/delete.jpg" width="10" height="10">
 						</a>
 					</div>
@@ -118,6 +118,32 @@
 			
         });
     	
+    	/* 댓글 삭제 */
+    	$(".comment-del-btn").on('click', function(e) {
+			e.preventDefault(); // 위로 올라감 방지
+			
+			let commentId = $(this).data("comment-id");
+			//alert(commentId);
+			
+			$.ajax({
+				type:"DELETE"
+				, url:"/comment/delete"
+				, data:{"commentId":commentId}
+				, success:function(data) {
+					if (data.code == 200) {
+						location.reload(true);
+					} else if (data.code == 403) { // 비로그인
+						alert(data.error_message);
+						location.href="/user/sign-in-view";
+					} else {
+						alert(data.error_message);
+					}
+				}
+				, error:function(request, status, error) {
+					alert("댓글 삭제 하는데 실패했습니다.");
+				}
+			});
+		});
     }); //--ready
     
     </script>
